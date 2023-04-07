@@ -80,7 +80,7 @@ resource "azurerm_kubernetes_cluster" "bdcc" {
   default_node_pool {
     name       = "default"
     node_count = 1
-    vm_size    = "Standard_DS3_v2"
+    vm_size    = "Standard_D12_v2"
   }
 
   identity {

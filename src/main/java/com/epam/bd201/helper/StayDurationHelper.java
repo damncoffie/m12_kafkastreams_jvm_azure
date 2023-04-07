@@ -19,7 +19,7 @@ public class StayDurationHelper {
 
     private static final Gson GSON = new Gson();
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-    private static final String STAY_DURATION_PROP_NAME = "stayDuration";
+    private static final String STAY_DURATION_PROP_NAME = "stay_duration_type";
 
     public StayDurationHelper() {
         SIMPLE_DATE_FORMAT.setLenient(false);
@@ -46,7 +46,7 @@ public class StayDurationHelper {
 
     private static long getStayDurationDays(JsonObject jsonObject) {
         JsonElement checkInDateElement = jsonObject.get("srch_ci");
-        JsonElement checkOutDateElement = jsonObject.get("srch_o");
+        JsonElement checkOutDateElement = jsonObject.get("srch_co");
 
         if (isNull(checkInDateElement) || isNull(checkOutDateElement)) return -1;
 

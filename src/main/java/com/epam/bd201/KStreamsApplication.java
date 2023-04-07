@@ -19,21 +19,19 @@ public class KStreamsApplication {
         Properties props = new Properties();
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "kafka-streams-hm12");
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka:9092");
-        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String());
-        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String());
-
+        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
 
         final String INPUT_TOPIC_NAME = "expedia";
-        final String OUTPUT_TOPIC_NAME = "expedia_ext";
+        final String OUTPUT_TOPIC_NAME = "expedia-ext";
 
         final StreamsBuilder builder = new StreamsBuilder();
 
         final KStream<String, String> input_records = builder.stream(INPUT_TOPIC_NAME, Consumed.with(Serdes.String(), Serdes.String()));
 
-        //Transform your records here
-        input_records.mapValues(StayDurationHelper::setDurationType);
-
-        input_records.to(OUTPUT_TOPIC_NAME);
+        input_records
+                .mapValues(StayDurationHelper::setDurationType)
+                .to(OUTPUT_TOPIC_NAME);
 
         final Topology topology = builder.build();
         System.out.println(topology.describe());
